@@ -12,7 +12,7 @@ func bootstrap() *cli.App {
 	return &cli.App{
 		Name:    "feed-webhook",
 		Usage:   "Monitor RSS/Atom feeds and deliver webhook notifications when feeds are updated.",
-		Version: "1.0.0",
+		Version: "0.0.0",
 		Commands: []*cli.Command{
 			cmd.Add(),
 			cmd.AddHook(),
