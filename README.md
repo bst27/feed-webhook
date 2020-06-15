@@ -1,6 +1,4 @@
 # TODOs / Ideas
-## RSS-Reader
-Add support to read RSS feeds.
 ## Tests
 Add more tests.
 ## Build
