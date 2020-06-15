@@ -1,0 +1,1 @@
+GOOS=linux go build -o dist/feed-webhook
