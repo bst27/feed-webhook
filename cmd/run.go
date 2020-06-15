@@ -35,27 +35,33 @@ func Run() *cli.Command {
 			m := monitoring.Create()
 			for _, f := range conf.Feeds {
 
+				webhooks := make([]webhook.Receiver, 0)
+
+				for _, w := range conf.GetWebhooks(f.ID) {
+					switch w.Type {
+					case "web":
+						webhooks = append(webhooks, webhook.Web(w.URL))
+					case "filesystem":
+						webhooks = append(webhooks, webhook.File(w.URL))
+					case "stdout":
+						webhooks = append(webhooks, webhook.Stdout())
+					default:
+						panic("Cannot handle hook type: " + w.Type)
+					}
+				}
+
+				var r reader.Reader
+
 				switch f.Type {
 				case "atom":
-					webhooks := make([]webhook.Receiver, 0)
-
-					for _, w := range conf.GetWebhooks(f.ID) {
-						switch w.Type {
-						case "web":
-							webhooks = append(webhooks, webhook.Web(w.URL))
-						case "filesystem":
-							webhooks = append(webhooks, webhook.File(w.URL))
-						case "stdout":
-							webhooks = append(webhooks, webhook.Stdout())
-						default:
-							panic("Cannot handle hook type: " + w.Type)
-						}
-					}
-
-					m.AddFeed(f.URL, f.PollingInterval, reader.GetAtom(), webhooks)
+					r = reader.GetAtom()
+				case "rss":
+					r = reader.GetRSS()
 				default:
 					panic("No reader for feed type: " + f.Type)
 				}
+
+				m.AddFeed(f.URL, f.PollingInterval, r, webhooks)
 			}
 
 			// TODO: Wait for signal to shutdown

@@ -22,7 +22,7 @@ func Add() *cli.Command {
 			},
 			&cli.StringFlag{
 				Name:     "type",
-				Usage:    "Define feed type (allowed: atom).",
+				Usage:    "Define feed type (allowed: atom, rss).",
 				Required: true,
 			},
 			&cli.Uint64Flag{
@@ -56,8 +56,8 @@ func Add() *cli.Command {
 			}
 
 			feedType := c.String("type")
-			if feedType != "atom" {
-				fmt.Println("Invalid feed type (allowed: atom)")
+			if feedType != "atom" && feedType != "rss" {
+				fmt.Println("Invalid feed type (allowed: atom, rss)")
 				return nil
 			}
 
