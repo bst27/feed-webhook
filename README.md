@@ -2,7 +2,8 @@
 ## Tests
 Add more tests.
 ## Build
-Write script to build executables (or document it).
+Execute `script.sh` to build the project. You will receive one file in the `dist` directory:
+* **feed-webhook** is the app executable
 ## Docs
 Write docs and improve this README
 ## Formatters
